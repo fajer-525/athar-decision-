@@ -1,3 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أثر | نظام دعم قرار طلبات التطوع</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap">
+<style>
+:root{--bg:#f6f8f7;--card:#fff;--tx:#1c2a26;--mut:#5d6f69;--bd:#dbe4e0;--pri:#0f766e;--ok:#15803d;--okb:#dcfce7;--wt:#b45309;--wtb:#fef3c7;--no:#b91c1c;--nob:#fee2e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1715;--card:#17211e;--tx:#e8f0ed;--mut:#9db1aa;--bd:#2a3a35;--pri:#2dd4bf;--ok:#4ade80;--okb:#14351f;--wt:#fbbf24;--wtb:#3a2a0a;--no:#f87171;--nob:#3b1515}}
+:root[data-theme="dark"]{--bg:#0f1715;--card:#17211e;--tx:#e8f0ed;--mut:#9db1aa;--bd:#2a3a35;--pri:#2dd4bf;--ok:#4ade80;--okb:#14351f;--wt:#fbbf24;--wtb:#3a2a0a;--no:#f87171;--nob:#3b1515}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Tajawal,Tahoma,Arial,sans-serif;line-height:1.7}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:8px 0 2px;color:var(--pri)}p.s{margin:0 0 14px;color:var(--mut);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+label{display:block;font-weight:700;font-size:.9rem;margin:10px 0 4px}
+select,input{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res{border-radius:12px;padding:14px;text-align:center;font-weight:700;font-size:1.25rem}
+.res small{display:block;font-weight:400;font-size:.85rem;margin-top:4px}
+.accept{background:var(--okb);color:var(--ok)}.wait{background:var(--wtb);color:var(--wt)}.reject{background:var(--nob);color:var(--no)}
+button{font:inherit;cursor:pointer;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:9px 14px;margin:6px 4px 0 0}
+button.g{background:transparent;color:var(--pri)}
+:root[data-theme="dark"] button:not(.g){color:#06201c}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) button:not(.g){color:#06201c}}
+.tr{list-style:none;padding:0;margin:8px 0 0}
+.tr li{padding:8px 10px;border-radius:8px;margin-bottom:6px;border:1px solid var(--bd);font-size:.88rem}
+.tr li.fire{border-color:var(--pri);border-width:2px}.tr li.skip{opacity:.55}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;margin:0;font-weight:400}.chip input{position:absolute;opacity:0;width:0}.chip span{padding:5px 11px;border:1px solid var(--bd);border-radius:999px;font-size:.85rem;cursor:pointer}.chip input:checked+span{background:var(--pri);color:var(--bg);border-color:var(--pri)}.chip input:focus-visible+span{outline:2px solid var(--pri);outline-offset:2px}
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}.tbl th,.tbl td{border:1px solid var(--bd);padding:6px;text-align:center}.tbl th{background:var(--bg)}
+svg text{fill:var(--tx);font-size:11px}svg .lb{font-size:9.5px;fill:var(--mut)}svg rect{fill:var(--card);stroke:var(--bd);stroke-width:1.2}svg .o-accept{fill:var(--okb)}svg .o-wait{fill:var(--wtb)}svg .o-reject{fill:var(--nob)}svg .dim{opacity:.4}svg .on rect{stroke:var(--pri);stroke-width:3}svg line{stroke:var(--bd);stroke-width:1.5}svg line.on{stroke:var(--pri);stroke-width:3}
+.tag{font-size:.75rem;font-weight:700;color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+<h1>نظام أثر: دعم قرار طلبات التطوع</h1>
+<p class="s">أدخل بيانات المتطوع والفرصة، وسيظهر القرار فورًا: قبول، أو قائمة انتظار، أو رفض.</p>
+<div class="card"><b>بيانات الفرصة</b>
+<label for="opp">اسم الفرصة</label><input id="opp" value="تنظيم معرض التوعية الصحية">
+<div class="row"><div><label for="day">يوم الفرصة</label><select id="day"></select></div>
+<div><label for="per">الفترة</label><select id="per"><option>صباحي</option><option selected>مسائي</option></select></div></div>
+<div class="row"><div><label for="tot">عدد المقاعد الكلي</label><input id="tot" type="number" min="0" value="20"></div>
+<div><label for="bk">المقاعد المحجوزة</label><input id="bk" type="number" min="0" value="14"></div></div>
+<label>المهارات المطلوبة</label><div id="rq" class="chips"></div></div>
+<div class="card"><b>بيانات المتطوع</b>
+<label for="nm">اسم المتطوع</label><input id="nm" value="سارة">
+<div class="row"><div><label for="age">العمر (سنة)</label><input id="age" type="number" min="5" max="80" value="20"></div>
+<div><label for="prev">عدد الفرص السابقة</label><input id="prev" type="number" min="0" value="3"></div></div>
+<label for="abs">مرات الغياب في الفرص السابقة</label><input id="abs" type="number" min="0" value="0">
+<label>مهارات المتطوع</label><div id="vs" class="chips"></div>
+<label>الأيام المتاحة</label><div id="vd" class="chips"></div>
+<label>الفترات المتاحة</label><div id="vp" class="chips"></div>
+<button class="g" data-p="1">مثال: قبول</button><button class="g" data-p="2">مثال: انتظار</button><button class="g" data-p="3">مثال: رفض</button>
+</div>
+<div class="card">
+<div id="sum" class="tag"></div>
+<div id="res" class="res" aria-live="polite"></div>
+<button id="why" class="g">لماذا هذا القرار؟</button><button id="wi" class="g">وش أغيّر؟ (ماذا لو)</button>
+<div id="whatif" hidden></div>
+<div id="xai" hidden></div>
+</div>
+<div class="card"><b>مسار القرار في شجرة القرار</b><div id="tree"></div></div>
+<div class="card"><b>فرز عدة متطوعين لنفس الفرصة</b>
+<p class="tag">أضف المتطوع الحالي إلى القائمة، أو حمّل أمثلة. تُعالج الطلبات بترتيب الإضافة، وكل قبول يُنقص المقاعد الشاغرة.</p>
+<button id="add">أضف المتطوع الحالي</button><button id="demo" class="g">حمّل أمثلة (مقعدان شاغران)</button><button id="clr" class="g">مسح القائمة</button>
+<div id="batch"></div></div>
+</main>
+<script>
+var SK=["تصوير","تنظيم فعاليات","تدريس","إسعافات أولية","تصميم","ترجمة"],DY=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],PR=["صباحي","مسائي"];
+var R=[
+{id:"R1",c:"العمر أقل من 16 سنة",t:function(s){return s.age<16},o:"reject",h:"الحد الأدنى للتطوع 16 سنة، ويمكن التقديم عند بلوغه."},
+{id:"R2",c:"التوفر لا يغطي يوم الفرصة وفترتها",t:function(s){return !s.avail},o:"reject",h:"أضف يوم الفرصة وفترتها إلى أوقات توفرك."},
+{id:"R3",c:"المهارات غير مطابقة",t:function(s){return s.match==="none"},o:"reject",h:"اختر فرصة تناسب مهاراتك أو طوّر المهارة المطلوبة."},
+{id:"R4",c:"سجل الالتزام السابق ضعيف",t:function(s){return s.record==="weak"},o:"reject",h:"حسّن الحضور في الفرص السابقة ثم أعد التقديم."},
+{id:"R5",c:"لا توجد مقاعد شاغرة",t:function(s){return s.free<=0},o:"wait",h:"سيُرقّى الطلب تلقائيًا عند توفر مقعد."},
+{id:"R6",c:"المهارات مطابقة جزئيًا",t:function(s){return s.match==="partial"},o:"wait",h:"يُراجع الطلب إن لم يتوفر مرشح بمطابقة كاملة، أو بعد دورة في المهارة."},
+{id:"R7",c:"مهارات مطابقة كليًا ومقاعد متاحة",t:function(s){return s.match==="full"&&s.free>0},o:"accept",h:"استوفى المتطوع جميع الشروط."}];
+var N={accept:"قبول الطلب",wait:"قائمة انتظار",reject:"رفض الطلب"},MN={full:"كاملة",partial:"جزئية",none:"غير مطابقة"},RN={excellent:"ممتاز",ok:"مقبول",new:"متطوع جديد",weak:"ضعيف"};
+var CH=[
+{f:function(s){return s.age<16},set:{age:16},t:"يبلغ المتطوع 16 سنة"},
+{f:function(s){return !s.avail},set:{avail:true},t:"يتوفر في يوم الفرصة وفترتها"},
+{f:function(s){return s.match!=="full"},set:{match:"full"},t:"يغطي كل المهارات المطلوبة"},
+{f:function(s){return s.record==="weak"},set:{record:"ok"},t:"يصير حضوره 70% فأكثر"},
+{f:function(s){return s.free<=0},set:{free:1},t:"يتوفر مقعد شاغر"}];
+var L=[],$=function(i){return document.getElementById(i)};
+function chips(id,arr,on){$(id).innerHTML=arr.map(function(x){return "<label class='chip'><input type='checkbox' value='"+x+"'"+(on.indexOf(x)>-1?" checked":"")+"><span>"+x+"</span></label>"}).join("")}
+function got(id){return Array.prototype.map.call($(id).querySelectorAll("input:checked"),function(e){return e.value})}
+function setc(id,arr){Array.prototype.forEach.call($(id).querySelectorAll("input"),function(e){e.checked=arr.indexOf(e.value)>-1})}
+function num(i){return Math.max(0,Number($(i).value)||0)}
+function opp(){return{name:$("opp").value,rq:got("rq"),day:$("day").value,per:$("per").value,tot:num("tot"),bk:num("bk"),free:num("tot")-num("bk")}}
+function vol(){return{nm:$("nm").value,age:num("age"),vs:got("vs"),vd:got("vd"),vp:got("vp"),prev:num("prev"),abs:num("abs")}}
+function derive(v,o,free){
+var cov=o.rq.filter(function(x){return v.vs.indexOf(x)>-1}),m;
+if(!o.rq.length||cov.length===o.rq.length)m="full";else if(cov.length>0&&cov.length*2>=o.rq.length)m="partial";else m="none";
+var ab=Math.min(v.abs,v.prev),rate=v.prev?(v.prev-ab)/v.prev:null,rec;
+if(v.prev===0)rec="new";else if(rate>=0.9)rec="excellent";else if(rate>=0.7)rec="ok";else rec="weak";
+return{age:v.age,match:m,cov:cov,rq:o.rq,avail:v.vd.indexOf(o.day)>-1&&v.vp.indexOf(o.per)>-1,free:free,record:rec,rate:rate}}
+function decide(s){for(var i=0;i<R.length;i++){if(R[i].t(s))return i}return R.length-1}
+var TD=[["a","العمر 16 سنة فأكثر؟"],["b","التوفر يغطي الأوقات؟"],["c","مطابقة المهارات؟"],["d","سجل الالتزام ضعيف؟"],["e","مقاعد شاغرة؟"],["f","المهارات؟"]];
+var TO=[["r1","رفض (R1)","reject",0],["r2","رفض (R2)","reject",1],["r3","رفض (R3)","reject",2],["r4","رفض (R4)","reject",3],["w5","انتظار (R5)","wait",4],["w6","انتظار (R6)","wait",5],["k7","قبول (R7)","accept",6]];
+var TE=[["a","b","نعم"],["a","r1","لا"],["b","c","نعم"],["b","r2","لا"],["c","d","جزئية/كاملة"],["c","r3","غير مطابقة"],["d","e","لا"],["d","r4","نعم"],["e","f","نعم"],["e","w5","لا"],["f","w6","جزئية"],["f","k7","كاملة"]];
+var TP=[["a","r1"],["a","b","r2"],["a","b","c","r3"],["a","b","c","d","r4"],["a","b","c","d","e","w5"],["a","b","c","d","e","f","w6"],["a","b","c","d","e","f","k7"]];
+var PS={};TD.forEach(function(d,i){PS[d[0]]=[78,22+64*i]});TO.forEach(function(o){PS[o[0]]=[281,o[0]==="k7"?396:22+64*(o[3]<6?o[3]:5)]});
+function tree(f){
+var on=TP[f],g="<svg viewBox='0 0 355 425' width='100%' role='img' aria-label='شجرة القرار'>";
+TE.forEach(function(e){var A=PS[e[0]],B=PS[e[1]],ac=on.indexOf(e[0])>-1&&on.indexOf(e[1])>-1,x1=A[0],y1=A[1]+16,x2=B[0],y2=B[1]-16;
+if(B[0]!==A[0]){x1=148;y1=A[1];x2=215;y2=B[1]}
+g+="<line class='"+(ac?"on":"")+"' x1='"+x1+"' y1='"+y1+"' x2='"+x2+"' y2='"+y2+"'/><text class='lb' x='"+((x1+x2)/2+(B[0]===A[0]?6:0))+"' y='"+((y1+y2)/2-3)+"' text-anchor='"+(B[0]===A[0]?"start":"middle")+"'>"+e[2]+"</text>"});
+TD.forEach(function(d){var P=PS[d[0]];g+="<g class='"+(on.indexOf(d[0])>-1?"on":"dim")+"'><rect x='8' y='"+(P[1]-16)+"' width='140' height='32' rx='8'/><text x='78' y='"+(P[1]+4)+"' text-anchor='middle'>"+d[1]+"</text></g>"});
+TO.forEach(function(o){var P=PS[o[0]];g+="<g class='"+(on.indexOf(o[0])>-1?"on":"dim")+"'><rect class='o-"+o[2]+"' x='215' y='"+(P[1]-16)+"' width='132' height='32' rx='8'/><text x='281' y='"+(P[1]+4)+"' text-anchor='middle'>"+o[1]+"</text></g>"});
+$("tree").innerHTML=g+"</svg>"}
+function whatif(s,f){
+if(f===6){return "<p>الطلب مقبول أصلًا، ولا يحتاج أي تغيير.</p>"}
+var ap=CH.filter(function(c){return c.f(s)}),h="<p><b>ماذا لو تغيّر شرط واحد فقط؟</b></p><ul class='tr'>";
+ap.forEach(function(c){var t={};for(var k in s)t[k]=s[k];for(k in c.set)t[k]=c.set[k];h+="<li>لو "+c.t+" فقط ← <b>"+N[R[decide(t)].o]+"</b></li>"});
+return h+"</ul><p><b>للوصول إلى القبول يلزم:</b> "+ap.map(function(c){return c.t}).join("، و")+".</p>"}
+function run(){
+var o=opp(),v=vol(),s=derive(v,o,o.free),f=decide(s),r=R[f],i;
+$("sum").innerHTML="المتطوع: <b>"+(v.nm||"-")+"</b> · الفرصة: <b>"+(o.name||"-")+"</b><br>المهارات: "+MN[s.match]+" ("+s.cov.length+" من "+s.rq.length+") · المقاعد الشاغرة: "+Math.max(0,s.free)+" · السجل: "+RN[s.record]+(s.rate===null?"":" ("+Math.round(s.rate*100)+"% حضور)")+" · التوفر: "+(s.avail?"يغطي":"لا يغطي");
+$("res").className="res "+r.o;
+$("res").innerHTML=N[r.o]+"<small>القاعدة المطبّقة: "+r.id+"</small>";
+var h="<p><b>السبب:</b> "+r.c+".</p><p><b>ماذا يغيّر القرار؟</b> "+r.h+"</p><ul class='tr'>";
+for(i=0;i<R.length;i++){
 var cls=i===f?"fire":(i>f?"skip":""),tg=i===f?"تحققت: القرار "+N[R[i].o]:(i>f?"لم تُفحص":"لم تتحقق");
 h+="<li class='"+cls+"'><span class='tag'>"+R[i].id+" · "+tg+"</span><br>إذا "+R[i].c+"</li>"}
 $("xai").innerHTML=h+"</ul><p class='tag'>تُفحص القواعد بالترتيب، وتُطبَّق أول قاعدة تتحقق.<br>المطابقة: كاملة إذا غُطيت كل المهارات المطلوبة، جزئية إذا غُطي النصف أو أكثر، وإلا غير مطابقة. السجل: ممتاز من 90% حضور، مقبول من 70%، وما دون ذلك ضعيف.</p>";
