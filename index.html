@@ -1,0 +1,27 @@
+var cls=i===f?"fire":(i>f?"skip":""),tg=i===f?"تحققت: القرار "+N[R[i].o]:(i>f?"لم تُفحص":"لم تتحقق");
+h+="<li class='"+cls+"'><span class='tag'>"+R[i].id+" · "+tg+"</span><br>إذا "+R[i].c+"</li>"}
+$("xai").innerHTML=h+"</ul><p class='tag'>تُفحص القواعد بالترتيب، وتُطبَّق أول قاعدة تتحقق.<br>المطابقة: كاملة إذا غُطيت كل المهارات المطلوبة، جزئية إذا غُطي النصف أو أكثر، وإلا غير مطابقة. السجل: ممتاز من 90% حضور، مقبول من 70%، وما دون ذلك ضعيف.</p>";
+$("whatif").innerHTML=whatif(s,f);
+tree(f);batch(o)}
+function batch(o){
+if(!L.length){$("batch").innerHTML="";return}
+var free=o.free,h="<table class='tbl'><tr><th>#</th><th>المتطوع</th><th>القرار</th><th>القاعدة</th></tr>",c={accept:0,wait:0,reject:0};
+L.forEach(function(v,i){var s=derive(v,o,free),f=decide(s),r=R[f];if(r.o==="accept")free--;c[r.o]++;
+h+="<tr><td>"+(i+1)+"</td><td>"+(v.nm||"-")+"</td><td class='o-"+r.o+"' style='background:var(--"+(r.o==="accept"?"okb":r.o==="wait"?"wtb":"nob")+")'>"+N[r.o]+"</td><td>"+r.id+"</td></tr>"});
+$("batch").innerHTML=h+"</table><p class='tag'>المقبولون: "+c.accept+" · الانتظار: "+c.wait+" · المرفوضون: "+c.reject+" · المقاعد المتبقية: "+Math.max(0,free)+"</p>"}
+$("day").innerHTML=DY.map(function(x){return "<option"+(x==="السبت"?" selected":"")+">"+x+"</option>"}).join("");
+var P=[{rq:["تصوير","تنظيم فعاليات"],vs:["تنظيم فعاليات","تصوير"],prev:3,abs:0},{rq:["تصوير","تنظيم فعاليات","ترجمة"],vs:["تنظيم فعاليات","تصوير"],prev:3,abs:0},{rq:["تصوير","تنظيم فعاليات"],vs:["تنظيم فعاليات","تصوير"],prev:5,abs:3}];
+var B=["تصوير","تنظيم فعاليات"],D=[{nm:"سارة",age:20,vs:B,prev:3,abs:0},{nm:"نورة",age:22,vs:["تصوير"],prev:2,abs:0},{nm:"ريم",age:19,vs:B,prev:5,abs:3},{nm:"هند",age:21,vs:B,prev:0,abs:0},{nm:"منى",age:25,vs:B,prev:4,abs:1},{nm:"لجين",age:15,vs:B,prev:0,abs:0}].map(function(x){x.vd=["السبت"];x.vp=["مسائي"];return x});
+chips("rq",SK,P[0].rq);chips("vs",SK,P[0].vs);chips("vd",DY,["السبت","الأحد"]);chips("vp",PR,["مسائي"]);
+document.addEventListener("input",run);document.addEventListener("change",run);
+$("why").addEventListener("click",function(){var x=$("xai");x.hidden=!x.hidden;this.textContent=x.hidden?"لماذا هذا القرار؟":"إخفاء الشرح"});
+$("wi").addEventListener("click",function(){var x=$("whatif");x.hidden=!x.hidden;this.textContent=x.hidden?"وش أغيّر؟ (ماذا لو)":"إخفاء الاقتراحات"});
+document.querySelectorAll("[data-p]").forEach(function(b){b.addEventListener("click",function(){
+var p=P[b.getAttribute("data-p")-1];setc("rq",p.rq);setc("vs",p.vs);$("prev").value=p.prev;$("abs").value=p.abs;$("xai").hidden=false;$("why").textContent="إخفاء الشرح";run()})});
+$("add").addEventListener("click",function(){L.push(vol());run()});
+$("clr").addEventListener("click",function(){L=[];run()});
+$("demo").addEventListener("click",function(){$("tot").value=20;$("bk").value=18;setc("rq",B);L=D.map(function(x){return JSON.parse(JSON.stringify(x))});run()});
+run();
+</script>
+</body>
+</html>
